@@ -31,6 +31,10 @@ const createApp = () => {
         res.send('Hola, soy una nueva ruta');
     });
 
+    app.get('/hello', (req, res) => {
+        res.status(200).json({ name: 'juan' });
+    });
+
     routerApi(app);
 
     app.use(logErrors);

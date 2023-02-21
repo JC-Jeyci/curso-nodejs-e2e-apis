@@ -16,7 +16,6 @@ describe('test for app', () => {
 
     test('GET /hello', async () => {
         const response = await api.get('/hello')
-        console.log(response)
         expect(response).toBeTruthy()
         expect(response.statusCode).toEqual(200);
         expect(response.body.name).toEqual('juan')

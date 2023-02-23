@@ -1,5 +1,6 @@
 const request = require('supertest')
 const createApp = require('./../src/app')
+const { config } = require('./../src/config/config')
 
 describe('test for app', () => {
 
@@ -20,6 +21,28 @@ describe('test for app', () => {
         expect(response.statusCode).toEqual(200);
         expect(response.body.name).toEqual('juan')
         expect(response.headers['content-type']).toMatch(/json/)
+    })
+
+    describe('GET /nueva-ruta', () => {
+        test('should return 401', async () => {
+            const { statusCode } = await api.get('/nueva-ruta')
+            expect(statusCode).toEqual(401)
+        })
+
+        test('should return 401 with invalid apikey', async () => {
+            const { statusCode } = await api.get('/nueva-ruta').set({
+                api: '1212'
+            })
+            expect(statusCode).toEqual(401)
+        })
+
+        test('should return 200', async () => {
+            // Forma de enviar parametros por los header
+            const { statusCode } = await api.get('/nueva-ruta').set({
+                api: config.apiKey
+            })
+            expect(statusCode).toEqual(200)
+        })
     })
 
     afterEach(() => {
